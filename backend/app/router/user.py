@@ -11,6 +11,11 @@ user_router = APIRouter()
 @user_router.post("/create_user", status_code=201, response_model=UserResponse)
 def create_user(payload: UserCreate, db : Session = Depends(get_db)):
     try:
-        user_service.create_user(payload, db)
+        return user_service.create_user(payload, db)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+
+@user_router.get("/users")
+def list_users(db: Session = Depends(get_db)):
+    return db.query(User).all()

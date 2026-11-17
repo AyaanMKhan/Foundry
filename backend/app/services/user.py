@@ -21,5 +21,9 @@ def create_user(user: UserCreate, db : Session = Depends(get_db)):
 
 
     new_user = User(id=user.id, email=user.email, name=user.name, google_id=user.google_id)
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+
 
     return new_user

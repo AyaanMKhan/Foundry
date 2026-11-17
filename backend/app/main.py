@@ -1,8 +1,11 @@
 from fastapi import FastAPI, APIRouter
 from router import user as user_router
 from fastapi.middleware.cors import CORSMiddleware
-from models import user
+from models.user import User
+from database import Base, engine
 
+
+Base.metadata.create_all(bind=engine)
 app = FastAPI(title="Foundry")
 origins = ["http://localhost:5173"]
 
