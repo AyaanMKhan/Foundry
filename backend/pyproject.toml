@@ -3,7 +3,7 @@ name = "backend"
 version = "0.1.0"
 dependencies = [
     "fastapi",
-    ""fastapi[standard]",
+    "fastapi[standard]",
     "uvicorn",
     "sqlalchemy",
     "psycopg[binary]",
@@ -12,4 +12,5 @@ dependencies = [
     "google-api-python-client",
     "google-auth",
     "authlib",
+    "itsdangerous",
 ]

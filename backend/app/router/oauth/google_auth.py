@@ -1,36 +1,29 @@
-# from fastapi import FastAPI, Request, HTTPException, APIRouter
-# import os
-# from dotenv import load_dotenv
-# from jose import jwt
-# from pathlib import Path
-# from authlib.integrations.base_client import OAuthError
-# from authlib.oauth2.rfc6749 import OAuth2Token
-# from datetime import timedelta
-# from typing import Annotated
-# from starlette import status
-# from fastapi.security import OAuth2PasswordRequestForm
-# from ...models import user
+from fastapi import APIRouter, Request, Depends, HTTPException
+from authlib.integrations.starlette_client import OAuthError
+from sqlalchemy.orm import Session
 
+from database import get_db
+from services.oauth.google_login import oauth, get_or_create_google_user, GOOGLE_URI_REDIRECT
 
-# env_path = Path(__file__).resolve().parent.parent / ".env"
-# load_dotenv(dotenv_path=env_path)
+google_router = APIRouter(prefix="/google_auth", tags=["google_auth"])
 
+@google_router.get("/login")
+async def google_login(request: Request):
+    # Builds the Google URL, saves `state` in the session, returns a 302
+    return await oauth.google.authorize_redirect(request, GOOGLE_URI_REDIRECT)
 
-# GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
-# GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET")
-# GOOGLE_URI_REDIRECT = os.getenv("GOOGLE_URI_REDIRECT")
+@google_router.get("/callback")
+async def google_callback(request: Request, db: Session = Depends(get_db)):
+    try:
+        # Checks state, swaps ?code= for tokens, verifies the id_token signature
+        token = await oauth.google.authorize_access_token(request)
+    except OAuthError as e:
+        raise HTTPException(status_code=400, detail=e.error)
 
+    userinfo = token["userinfo"]  # decoded id_token claims
+    try:
+        user = get_or_create_google_user(db, userinfo)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
-# if not all([GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_URI_REDIRECT]):
-
-#     raise RuntimeError("Missing Google Ouath environment variables")
-
-
-
-# ouath_router = APIRouter(prefix="/google_auth", tags=["google_auth"])
-
-
-
-# @ouath_router("/login")
-# async def login_google(request: Request):
-#     return await ouath.google.authorize_redirect
+    return {"id": str(user.id), "email": user.email, "name": user.name}
