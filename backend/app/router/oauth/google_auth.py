@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Request, Depends, HTTPException
+from fastapi.responses import RedirectResponse
 from authlib.integrations.starlette_client import OAuthError
 from sqlalchemy.orm import Session
 
@@ -26,4 +27,4 @@ async def google_callback(request: Request, db: Session = Depends(get_db)):
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-    return {"id": str(user.id), "email": user.email, "name": user.name}
+    return RedirectResponse(url="http://localhost:5173/")
