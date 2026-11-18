@@ -6,7 +6,7 @@ export default function Login() {
     };
 
     return (
-        <div>
+        <div className="login-page">
             <button onClick={googleLogin}>Login with Google</button>
         </div>
     );

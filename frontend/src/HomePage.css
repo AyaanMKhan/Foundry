@@ -1,0 +1,230 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap");
+
+/* ============================================================
+   Foundry homepage
+   The DOM is just: #root > .home-page > button("Login").
+   Everything else is drawn with pseudo-elements:
+     #root::before               nav bar + Foundry logo
+     button + ::before/::after   "Log in" / "Start designing" (both open /login)
+     body::before                "New" announcement badge
+     .home-page::before          headline
+     .home-page::after           subheading
+     #root::after                product preview mockup (interactive on hover)
+   ============================================================ */
+
+:root {
+    --fd-bg: #070a09;
+    --fd-green: #3fd68f;
+    --fd-green-hover: #5fe0a6;
+    --fd-text: #f3f4f6;
+    --fd-muted: #9aa5a0;
+    --fd-border: rgba(255, 255, 255, 0.08);
+    --fd-gutter: max(16px, calc(50vw - 560px));
+}
+
+body:has(.home-page) {
+    margin: 0;
+    min-height: 100vh;
+    box-sizing: border-box;
+    padding: 60px 16px 96px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: var(--fd-text);
+    background:
+        radial-gradient(ellipse 70% 45% at 50% 0%, rgba(63, 214, 143, 0.16), transparent 70%),
+        radial-gradient(ellipse 50% 35% at 50% 85%, rgba(63, 214, 143, 0.07), transparent 70%),
+        var(--fd-bg);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* #root ignores the pointer so that only the preview (and the nav button)
+   can trigger hover states; see the preview section below. */
+#root:has(.home-page) {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: none;
+}
+
+/* ---------- Nav bar ---------- */
+#root:has(.home-page)::before {
+    content: "Foundry";
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 10;
+    box-sizing: border-box;
+    height: 60px;
+    padding-left: calc(var(--fd-gutter) + 38px);
+    line-height: 60px;
+    font-family: "Space Grotesk", "Inter", system-ui, sans-serif;
+    font-size: 1.125rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: #fff;
+    background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E %3Crect width='28' height='28' rx='7' fill='%233fd68f'/%3E %3Cpath d='M14 6 L21 10 V18 L14 22 L7 18 V10 Z M7 10 L14 14 L21 10 M14 14 V22' fill='none' stroke='%23062014' stroke-width='1.8' stroke-linejoin='round'/%3E %3C/svg%3E") var(--fd-gutter) center / 28px 28px no-repeat,
+        rgba(7, 10, 9, 0.78);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--fd-border);
+}
+
+.home-page button {
+    pointer-events: auto;
+    position: fixed;
+    top: 12px;
+    right: var(--fd-gutter);
+    z-index: 11;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 36px;
+    padding: 0;
+    border: 0;
+    background: none;
+    font-size: 0; /* hides the raw "Login" label; it stays the accessible name */
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.home-page button::before,
+.home-page button::after {
+    display: inline-flex;
+    align-items: center;
+    height: 36px;
+    border-radius: 8px;
+    font-family: "Inter", system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1;
+    white-space: nowrap;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.home-page button::before {
+    content: "Log in";
+    padding: 0 12px;
+    font-weight: 500;
+    color: #c9d1cc;
+}
+
+.home-page button::after {
+    content: "Start designing";
+    padding: 0 16px;
+    font-weight: 600;
+    color: #04140c;
+    background: var(--fd-green);
+    box-shadow: 0 0 0 1px rgba(63, 214, 143, 0.4), 0 6px 20px rgba(63, 214, 143, 0.25);
+}
+
+.home-page button:hover::before {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.home-page button:hover::after {
+    background: var(--fd-green-hover);
+}
+
+.home-page button:focus-visible {
+    outline: 2px solid var(--fd-green);
+    outline-offset: 3px;
+}
+
+/* ---------- Hero ---------- */
+body:has(.home-page)::before {
+    content: "Sign in with Google is live  \2192";
+    margin-top: 64px;
+    padding: 6px 14px 6px 48px;
+    border-radius: 999px;
+    border: 1px solid var(--fd-border);
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 20'%3E %3Crect width='36' height='20' rx='10' fill='%233fd68f'/%3E %3Ctext x='18' y='14' text-anchor='middle' font-family='Inter, Segoe UI, system-ui, sans-serif' font-size='10.5' font-weight='700' fill='%23062014'%3ENew%3C/text%3E %3C/svg%3E") 5px center / 36px 20px no-repeat, rgba(255, 255, 255, 0.03);
+    font-size: 12.5px;
+    color: #c9d1cc;
+    white-space: pre;
+}
+
+.home-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.home-page::before {
+    content: "Design software\A architecture\A that actually ships.";
+    margin-top: 28px;
+    white-space: pre;
+    font-family: "Space Grotesk", "Inter", system-ui, sans-serif;
+    font-size: clamp(1.75rem, 7.6vw, 4.75rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    /* top two lines white, last line green */
+    background: linear-gradient(180deg, var(--fd-text) 66.6%, var(--fd-green) 66.6%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.home-page::after {
+    content: "The system planner for engineers. Sketch your backend visually, validate it instantly, and ship production-ready infrastructure.";
+    max-width: 34rem;
+    margin-top: 24px;
+    font-size: clamp(1rem, 1.6vw, 1.125rem);
+    line-height: 1.6;
+    color: var(--fd-muted);
+}
+
+/* ---------- Product preview ---------- */
+#root:has(.home-page)::after {
+    content: "";
+    pointer-events: auto;
+    width: min(960px, 100%);
+    aspect-ratio: 960 / 440;
+    margin-top: 56px;
+    border-radius: 16px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 960 440' font-family='Inter, Segoe UI, system-ui, sans-serif'%3E %3Cdefs%3E %3Cpattern id='g' width='20' height='20' patternUnits='userSpaceOnUse'%3E%3Ccircle cx='1' cy='1' r='1' fill='%231a2420'/%3E%3C/pattern%3E %3CradialGradient id='glow' cx='50%25' cy='100%25' r='65%25'%3E%3Cstop offset='0' stop-color='%233fd68f' stop-opacity='.13'/%3E%3Cstop offset='1' stop-color='%233fd68f' stop-opacity='0'/%3E%3C/radialGradient%3E %3C/defs%3E %3Crect x='.5' y='.5' width='959' height='439' rx='16' fill='%230d1311' stroke='%231f2a26'/%3E %3Crect x='1' y='49' width='958' height='360' fill='url%28%23g%29'/%3E %3Crect x='1' y='49' width='958' height='360' fill='url%28%23glow%29'/%3E %3Cline x1='1' y1='48.5' x2='959' y2='48.5' stroke='%231f2a26'/%3E %3Cline x1='1' y1='409.5' x2='959' y2='409.5' stroke='%231f2a26'/%3E %3Ccircle cx='24' cy='24' r='4' fill='%232a3330'/%3E%3Ccircle cx='38' cy='24' r='4' fill='%232a3330'/%3E%3Ccircle cx='52' cy='24' r='4' fill='%233fd68f'/%3E %3Crect x='68' y='13' width='122' height='22' rx='6' fill='%23141c19' stroke='%2322302b'/%3E %3Ctext x='80' y='28' font-size='11' fill='%239ca3af'%3Echeckout-flow.arch%3C/text%3E %3Crect x='770' y='12' width='78' height='24' rx='6' fill='%23111816' stroke='%2326332e'/%3E %3Ctext x='809' y='28' text-anchor='middle' font-size='11' fill='%23d1d5db'%3E%26%239655%3B Validate%3C/text%3E %3Crect x='858' y='12' width='86' height='24' rx='6' fill='%233fd68f'/%3E %3Ctext x='901' y='28' text-anchor='middle' font-size='11' font-weight='600' fill='%23062014'%3EDeploy%3C/text%3E %3Crect x='402' y='66' width='156' height='24' rx='12' fill='%230f1714' stroke='%2322302b'/%3E %3Ccircle cx='416' cy='78' r='3' fill='%233fd68f'/%3E %3Ctext x='486' y='82' text-anchor='middle' font-size='10.5' fill='%239ca3af'%3EAuto-validated %26%23183%3B 0 errors%3C/text%3E %3Cline x1='480' y1='92' x2='480' y2='145' stroke='%232f4a3e' stroke-dasharray='3 3'/%3E %3Crect x='455' y='109' width='50' height='18' rx='4' fill='%230f1f18'/%3E %3Ctext x='480' y='122' text-anchor='middle' font-size='9.5' font-weight='600' fill='%233fd68f'%3EHTTPS%3C/text%3E %3Cpath d='M270 132 C340 132 340 168 405 168 M270 186 C340 186 340 168 405 168' fill='none' stroke='%232f4a3e'/%3E %3Cpath d='M480 191 V235 M480 213 H350 V235 M480 213 H610 V235 M480 269 V300' fill='none' stroke='%232f4a3e'/%3E %3Crect x='150' y='110' width='120' height='44' rx='8' fill='%230f1513' stroke='%2326332e'/%3E%3Ctext x='210.0' y='129' text-anchor='middle' font-size='12' font-weight='600' fill='%23f3f4f6'%3EWeb Client%3C/text%3E%3Ctext x='210.0' y='145' text-anchor='middle' font-size='10' fill='%238b9590'%3ENext.js %26%23183%3B edge%3C/text%3E %3Crect x='150' y='164' width='120' height='44' rx='8' fill='%230f1513' stroke='%2326332e'/%3E%3Ctext x='210.0' y='183' text-anchor='middle' font-size='12' font-weight='600' fill='%23f3f4f6'%3EMobile App%3C/text%3E%3Ctext x='210.0' y='199' text-anchor='middle' font-size='10' fill='%238b9590'%3EReact Native%3C/text%3E %3Crect x='405' y='145' width='150' height='46' rx='8' fill='%2312382a' stroke='%233fd68f' stroke-opacity='.55'/%3E%3Ctext x='480.0' y='164' text-anchor='middle' font-size='12' font-weight='600' fill='%23f3f4f6'%3EAPI Gateway%3C/text%3E%3Ctext x='480.0' y='180' text-anchor='middle' font-size='10' fill='%233fd68f'%3ERate limit %26%23183%3B Auth%3C/text%3E %3Crect x='300' y='235' width='100' height='34' rx='8' fill='%230f1513' stroke='%2326332e'/%3E%3Ctext x='350.0' y='256.0' text-anchor='middle' font-size='11.5' font-weight='600' fill='%23f3f4f6'%3EAuth svc%3C/text%3E %3Crect x='430' y='235' width='100' height='34' rx='8' fill='%230f1513' stroke='%233fd68f' stroke-opacity='.45'/%3E %3Ctext x='480' y='256' text-anchor='middle' font-size='11.5' font-weight='600' fill='%23f3f4f6'%3EOrders svc%3C/text%3E %3Crect x='560' y='235' width='100' height='34' rx='8' fill='%230f1513' stroke='%2326332e'/%3E%3Ctext x='610.0' y='256.0' text-anchor='middle' font-size='11.5' font-weight='600' fill='%23f3f4f6'%3EBilling svc%3C/text%3E %3Crect x='380' y='300' width='190' height='34' rx='8' fill='%230f1513' stroke='%2326332e'/%3E %3Ctext x='450' y='321' text-anchor='middle' font-size='11.5' font-weight='600' fill='%23f3f4f6'%3EPostgres %26%23183%3B Redis%3C/text%3E %3Crect x='508' y='309' width='52' height='16' rx='4' fill='%2312382a'/%3E %3Ctext x='534' y='321' text-anchor='middle' font-size='9.5' fill='%233fd68f'%3Eeu-west%3C/text%3E %3Crect x='700' y='100' width='170' height='154' rx='10' fill='%230b100e' stroke='%2322302b'/%3E %3Ctext x='714' y='122' font-size='11' font-weight='600' fill='%23f3f4f6'%3ELive checks%3C/text%3E %3Cpath d='M846 118 l4 -6 l3 8 l3 -5 l4 0' fill='none' stroke='%233fd68f' stroke-width='1.4' stroke-linejoin='round'/%3E %3Crect x='710' y='132' width='150' height='24' rx='5' fill='%23111816'/%3E%3Ctext x='718' y='148' font-size='10' fill='%238b9590'%3ELatency p99%3C/text%3E%3Ctext x='852' y='148' text-anchor='end' font-size='10.5' font-weight='600' fill='%23f3f4f6'%3E184ms%3C/text%3E %3Crect x='710' y='162' width='150' height='24' rx='5' fill='%23111816'/%3E%3Ctext x='718' y='178' font-size='10' fill='%238b9590'%3EAvailability%3C/text%3E%3Ctext x='852' y='178' text-anchor='end' font-size='10.5' font-weight='600' fill='%23f3f4f6'%3E99.99%25%3C/text%3E %3Crect x='710' y='192' width='150' height='24' rx='5' fill='%23111816'/%3E%3Ctext x='718' y='208' font-size='10' fill='%238b9590'%3ECost / mo%3C/text%3E%3Ctext x='852' y='208' text-anchor='end' font-size='10.5' font-weight='600' fill='%23f3f4f6'%3E%26%2336%3B412%3C/text%3E %3Crect x='710' y='224' width='150' height='22' rx='5' fill='%2312382a'/%3E %3Ctext x='785' y='239' text-anchor='middle' font-size='10' font-weight='600' fill='%233fd68f'%3EExport Terraform%3C/text%3E %3Ctext x='20' y='429' font-size='10' fill='%236b7280'%3ECanvas 100%25 %26%23183%3B 12 nodes%3C/text%3E %3Ctext x='940' y='429' text-anchor='end' font-size='10' fill='%233fd68f'%3E%26%2310003%3B Architecture is sound%3C/text%3E %3C/svg%3E") center / contain no-repeat;
+    box-shadow:
+        0 0 0 1px rgba(63, 214, 143, 0.08),
+        0 30px 80px rgba(0, 0, 0, 0.55),
+        0 0 120px rgba(63, 214, 143, 0.06);
+    transition:
+        transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1),
+        box-shadow 0.35s ease;
+}
+
+/* Hovering the preview (but not the nav button): lift it, glow the edge,
+   and overlay the animated layer (data flowing along connectors, lit nodes,
+   pulsing status dots). */
+#root:has(.home-page):hover:not(:has(button:hover))::after {
+    transform: translateY(-6px);
+    background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 960 440' font-family='Inter, Segoe UI, system-ui, sans-serif'%3E %3Cstyle%3E .f%7Bfill:none%3Bstroke:%233fd68f%3Bstroke-width:1.8%3Bstroke-linecap:round%3Bstroke-dasharray:4 12%3Banimation:f 1.1s linear infinite%7D %40keyframes f%7Bto%7Bstroke-dashoffset:-32%7D%7D .n%7Bfill:none%3Bstroke:%233fd68f%3Bstroke-opacity:.55%7D .g%7Bfill:none%3Bstroke:%233fd68f%3Bstroke-width:2%3Banimation:g 1.8s ease-in-out infinite%7D %40keyframes g%7B0%25,100%25%7Bopacity:.25%7D50%25%7Bopacity:1%7D%7D .p%7Btransform-box:fill-box%3Btransform-origin:center%3Banimation:p 1.6s ease-out infinite%7D %40keyframes p%7B0%25%7Btransform:scale%281%29%3Bopacity:.9%7D100%25%7Btransform:scale%283.4%29%3Bopacity:0%7D%7D .s%7Banimation:s 1.8s ease-in-out infinite%7D %40keyframes s%7B0%25,100%25%7Bopacity:0%7D50%25%7Bopacity:.18%7D%7D %40media %28prefers-reduced-motion: reduce%29%7B%2A%7Banimation:none%21important%7D%7D %3C/style%3E %3Cpath class='f' d='M270 132 C340 132 340 168 405 168'/%3E%3Cpath class='f' d='M270 186 C340 186 340 168 405 168'/%3E%3Cpath class='f' d='M480 92 V145'/%3E%3Cpath class='f' d='M480 191 V213 H350 V235'/%3E%3Cpath class='f' d='M480 191 V213 H610 V235'/%3E%3Cpath class='f' d='M480 191 V235'/%3E%3Cpath class='f' d='M480 269 V300'/%3E %3Crect x='455' y='109' width='50' height='18' rx='4' fill='%230f1f18' stroke='%233fd68f' stroke-opacity='.5'/%3E %3Ctext x='480' y='122' text-anchor='middle' font-size='9.5' font-weight='600' fill='%233fd68f'%3EHTTPS%3C/text%3E %3Crect class='n' x='150' y='110' width='120' height='44' rx='8'/%3E%3Crect class='n' x='150' y='164' width='120' height='44' rx='8'/%3E %3Crect class='n' x='300' y='235' width='100' height='34' rx='8'/%3E%3Crect class='n' x='430' y='235' width='100' height='34' rx='8'/%3E%3Crect class='n' x='560' y='235' width='100' height='34' rx='8'/%3E %3Crect class='n' x='380' y='300' width='190' height='34' rx='8'/%3E %3Crect class='s' x='405' y='145' width='150' height='46' rx='8' fill='%233fd68f'/%3E %3Crect class='g' x='401' y='141' width='158' height='54' rx='11'/%3E %3Crect class='g' x='698' y='98' width='174' height='158' rx='12'/%3E %3Ccircle class='p' cx='416' cy='78' r='3' fill='%233fd68f'/%3E %3Ccircle class='p' cx='52' cy='24' r='4' fill='%233fd68f'/%3E %3C/svg%3E") center / contain no-repeat,
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 960 440' font-family='Inter, Segoe UI, system-ui, sans-serif'%3E %3Cdefs%3E %3Cpattern id='g' width='20' height='20' patternUnits='userSpaceOnUse'%3E%3Ccircle cx='1' cy='1' r='1' fill='%231a2420'/%3E%3C/pattern%3E %3CradialGradient id='glow' cx='50%25' cy='100%25' r='65%25'%3E%3Cstop offset='0' stop-color='%233fd68f' stop-opacity='.13'/%3E%3Cstop offset='1' stop-color='%233fd68f' stop-opacity='0'/%3E%3C/radialGradient%3E %3C/defs%3E %3Crect x='.5' y='.5' width='959' height='439' rx='16' fill='%230d1311' stroke='%231f2a26'/%3E %3Crect x='1' y='49' width='958' height='360' fill='url%28%23g%29'/%3E %3Crect x='1' y='49' width='958' height='360' fill='url%28%23glow%29'/%3E %3Cline x1='1' y1='48.5' x2='959' y2='48.5' stroke='%231f2a26'/%3E %3Cline x1='1' y1='409.5' x2='959' y2='409.5' stroke='%231f2a26'/%3E %3Ccircle cx='24' cy='24' r='4' fill='%232a3330'/%3E%3Ccircle cx='38' cy='24' r='4' fill='%232a3330'/%3E%3Ccircle cx='52' cy='24' r='4' fill='%233fd68f'/%3E %3Crect x='68' y='13' width='122' height='22' rx='6' fill='%23141c19' stroke='%2322302b'/%3E %3Ctext x='80' y='28' font-size='11' fill='%239ca3af'%3Echeckout-flow.arch%3C/text%3E %3Crect x='770' y='12' width='78' height='24' rx='6' fill='%23111816' stroke='%2326332e'/%3E %3Ctext x='809' y='28' text-anchor='middle' font-size='11' fill='%23d1d5db'%3E%26%239655%3B Validate%3C/text%3E %3Crect x='858' y='12' width='86' height='24' rx='6' fill='%233fd68f'/%3E %3Ctext x='901' y='28' text-anchor='middle' font-size='11' font-weight='600' fill='%23062014'%3EDeploy%3C/text%3E %3Crect x='402' y='66' width='156' height='24' rx='12' fill='%230f1714' stroke='%2322302b'/%3E %3Ccircle cx='416' cy='78' r='3' fill='%233fd68f'/%3E %3Ctext x='486' y='82' text-anchor='middle' font-size='10.5' fill='%239ca3af'%3EAuto-validated %26%23183%3B 0 errors%3C/text%3E %3Cline x1='480' y1='92' x2='480' y2='145' stroke='%232f4a3e' stroke-dasharray='3 3'/%3E %3Crect x='455' y='109' width='50' height='18' rx='4' fill='%230f1f18'/%3E %3Ctext x='480' y='122' text-anchor='middle' font-size='9.5' font-weight='600' fill='%233fd68f'%3EHTTPS%3C/text%3E %3Cpath d='M270 132 C340 132 340 168 405 168 M270 186 C340 186 340 168 405 168' fill='none' stroke='%232f4a3e'/%3E %3Cpath d='M480 191 V235 M480 213 H350 V235 M480 213 H610 V235 M480 269 V300' fill='none' stroke='%232f4a3e'/%3E %3Crect x='150' y='110' width='120' height='44' rx='8' fill='%230f1513' stroke='%2326332e'/%3E%3Ctext x='210.0' y='129' text-anchor='middle' font-size='12' font-weight='600' fill='%23f3f4f6'%3EWeb Client%3C/text%3E%3Ctext x='210.0' y='145' text-anchor='middle' font-size='10' fill='%238b9590'%3ENext.js %26%23183%3B edge%3C/text%3E %3Crect x='150' y='164' width='120' height='44' rx='8' fill='%230f1513' stroke='%2326332e'/%3E%3Ctext x='210.0' y='183' text-anchor='middle' font-size='12' font-weight='600' fill='%23f3f4f6'%3EMobile App%3C/text%3E%3Ctext x='210.0' y='199' text-anchor='middle' font-size='10' fill='%238b9590'%3EReact Native%3C/text%3E %3Crect x='405' y='145' width='150' height='46' rx='8' fill='%2312382a' stroke='%233fd68f' stroke-opacity='.55'/%3E%3Ctext x='480.0' y='164' text-anchor='middle' font-size='12' font-weight='600' fill='%23f3f4f6'%3EAPI Gateway%3C/text%3E%3Ctext x='480.0' y='180' text-anchor='middle' font-size='10' fill='%233fd68f'%3ERate limit %26%23183%3B Auth%3C/text%3E %3Crect x='300' y='235' width='100' height='34' rx='8' fill='%230f1513' stroke='%2326332e'/%3E%3Ctext x='350.0' y='256.0' text-anchor='middle' font-size='11.5' font-weight='600' fill='%23f3f4f6'%3EAuth svc%3C/text%3E %3Crect x='430' y='235' width='100' height='34' rx='8' fill='%230f1513' stroke='%233fd68f' stroke-opacity='.45'/%3E %3Ctext x='480' y='256' text-anchor='middle' font-size='11.5' font-weight='600' fill='%23f3f4f6'%3EOrders svc%3C/text%3E %3Crect x='560' y='235' width='100' height='34' rx='8' fill='%230f1513' stroke='%2326332e'/%3E%3Ctext x='610.0' y='256.0' text-anchor='middle' font-size='11.5' font-weight='600' fill='%23f3f4f6'%3EBilling svc%3C/text%3E %3Crect x='380' y='300' width='190' height='34' rx='8' fill='%230f1513' stroke='%2326332e'/%3E %3Ctext x='450' y='321' text-anchor='middle' font-size='11.5' font-weight='600' fill='%23f3f4f6'%3EPostgres %26%23183%3B Redis%3C/text%3E %3Crect x='508' y='309' width='52' height='16' rx='4' fill='%2312382a'/%3E %3Ctext x='534' y='321' text-anchor='middle' font-size='9.5' fill='%233fd68f'%3Eeu-west%3C/text%3E %3Crect x='700' y='100' width='170' height='154' rx='10' fill='%230b100e' stroke='%2322302b'/%3E %3Ctext x='714' y='122' font-size='11' font-weight='600' fill='%23f3f4f6'%3ELive checks%3C/text%3E %3Cpath d='M846 118 l4 -6 l3 8 l3 -5 l4 0' fill='none' stroke='%233fd68f' stroke-width='1.4' stroke-linejoin='round'/%3E %3Crect x='710' y='132' width='150' height='24' rx='5' fill='%23111816'/%3E%3Ctext x='718' y='148' font-size='10' fill='%238b9590'%3ELatency p99%3C/text%3E%3Ctext x='852' y='148' text-anchor='end' font-size='10.5' font-weight='600' fill='%23f3f4f6'%3E184ms%3C/text%3E %3Crect x='710' y='162' width='150' height='24' rx='5' fill='%23111816'/%3E%3Ctext x='718' y='178' font-size='10' fill='%238b9590'%3EAvailability%3C/text%3E%3Ctext x='852' y='178' text-anchor='end' font-size='10.5' font-weight='600' fill='%23f3f4f6'%3E99.99%25%3C/text%3E %3Crect x='710' y='192' width='150' height='24' rx='5' fill='%23111816'/%3E%3Ctext x='718' y='208' font-size='10' fill='%238b9590'%3ECost / mo%3C/text%3E%3Ctext x='852' y='208' text-anchor='end' font-size='10.5' font-weight='600' fill='%23f3f4f6'%3E%26%2336%3B412%3C/text%3E %3Crect x='710' y='224' width='150' height='22' rx='5' fill='%2312382a'/%3E %3Ctext x='785' y='239' text-anchor='middle' font-size='10' font-weight='600' fill='%233fd68f'%3EExport Terraform%3C/text%3E %3Ctext x='20' y='429' font-size='10' fill='%236b7280'%3ECanvas 100%25 %26%23183%3B 12 nodes%3C/text%3E %3Ctext x='940' y='429' text-anchor='end' font-size='10' fill='%233fd68f'%3E%26%2310003%3B Architecture is sound%3C/text%3E %3C/svg%3E") center / contain no-repeat;
+    box-shadow:
+        0 0 0 1px rgba(63, 214, 143, 0.35),
+        0 40px 100px rgba(0, 0, 0, 0.6),
+        0 0 140px rgba(63, 214, 143, 0.18);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #root:has(.home-page)::after {
+        transition: none;
+    }
+    #root:has(.home-page):hover:not(:has(button:hover))::after {
+        transform: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .home-page button::before {
+        padding: 0 8px;
+    }
+    .home-page button::after {
+        padding: 0 12px;
+    }
+}

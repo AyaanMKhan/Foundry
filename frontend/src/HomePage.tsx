@@ -1,6 +1,7 @@
 import React from "react";
 import LoginPage from "./login/Login";
 import { useNavigate } from "react-router-dom";
+import "./HomePage.css";
 
 
 
@@ -14,7 +15,7 @@ export default function HomePage(){
     }
     
     return (
-        <div>
+        <div className="home-page">
             <button onClick={LoginNavigate}>Login</button>
         </div>
     );
