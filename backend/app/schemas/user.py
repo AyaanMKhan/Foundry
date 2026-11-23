@@ -11,8 +11,7 @@ class UserBase(BaseModel):
     id: UUID
     email: str
     name: str
-    google_id: str
-
+    google_id: str | None = None
 
 
 class UserCreate(UserBase):
