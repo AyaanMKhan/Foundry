@@ -30,3 +30,9 @@ class ProjectResponse(BaseModel):
     title: str
     description: str | None = None
     blueprint: dict[str, Any] | None = None
+
+
+class ProjectUpdate(BaseModel):
+    title: str | None = None
+    description: str | None = None
+    blueprint: dict[str, Any] | None = None
