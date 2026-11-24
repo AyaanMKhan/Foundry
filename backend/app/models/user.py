@@ -13,4 +13,4 @@ class User(Base):
 
 
     #relationship
-    project_ids = relationship("Project", back_populates="user")
+    project_ids = relationship("Project", back_populates="user", cascade="all, delete-orphan")
