@@ -5,7 +5,7 @@ from models.user import User
 from database import Base, engine
 from starlette.middleware.sessions import SessionMiddleware
 from router.oauth import google_auth
-
+from router import project as project_router
 
 Base.metadata.create_all(bind=engine)
 app = FastAPI(title="Foundry")
@@ -23,4 +23,5 @@ app.add_middleware(
 
 app.include_router(user_router.user_router)
 app.include_router(google_auth.google_router)
+app.include_router(project_router.project_router)
 app.add_middleware(SessionMiddleware, secret_key="jadkshgefgtohewjrt80t8023t")

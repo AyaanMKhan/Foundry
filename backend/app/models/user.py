@@ -2,7 +2,6 @@ from sqlalchemy import Column, String, Integer, UUID, ForeignKey
 from uuid import uuid4
 from database import Base
 from sqlalchemy.orm import relationship
-from project import Project
 
 class User(Base):
     __tablename__ = "users"

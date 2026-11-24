@@ -4,7 +4,7 @@ from uuid import UUID
 
 
 
-class Project(BaseModel):
+class ProjectBase(BaseModel):
     model_config = ConfigDict(str_max_length=255, populate_by_name=True)
 
     id: UUID
