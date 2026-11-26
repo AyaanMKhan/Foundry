@@ -6,7 +6,7 @@ from uuid import UUID
 
 
 class UserBase(BaseModel):
-    model_config = ConfigDict(str_max_length=255, populate_by_name=True)
+    model_config = ConfigDict(str_max_length=255, populate_by_name=True, from_attributes=True)
 
     id: UUID
     email: str
