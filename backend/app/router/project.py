@@ -6,17 +6,24 @@ from uuid import UUID
 from schemas.project import ProjectBase, ProjectCreate, ProjectResponse, ProjectUpdate
 from sqlalchemy.orm import Session
 from services import project as project_service
+from dependencies import get_current_user
+from models.user import User
 
 
 project_router = APIRouter(prefix="/project")
 
 
 @project_router.post("/create", status_code=201, response_model=ProjectResponse)
-def create_project(user_id: UUID, project: ProjectCreate, db : Session = Depends(get_db)):
+def create_project(project: ProjectCreate, user: User = Depends(get_current_user), db : Session = Depends(get_db)):
     try:
-        return project_service.create_project(user_id, project, db)
+        return project_service.create_project(user.id, project, db)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+
+@project_router.get("/mine", response_model=list[ProjectResponse])
+def get_my_projects(user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    return project_service.get_user_projects(user.id, db)
 
 
 @project_router.get("/projects", status_code=201)

@@ -1,0 +1,272 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@600;700&display=swap");
+
+.projects-page {
+    --fd-bg: #070a09;
+    --fd-surface: #0d1311;
+    --fd-green: #3fd68f;
+    --fd-green-hover: #5fe0a6;
+    --fd-text: #f3f4f6;
+    --fd-muted: #9aa5a0;
+    --fd-border: rgba(255, 255, 255, 0.08);
+    --fd-gutter: max(16px, calc(50vw - 560px));
+
+    min-height: 100vh;
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: var(--fd-text);
+    -webkit-font-smoothing: antialiased;
+}
+
+body:has(.projects-page) {
+    margin: 0;
+    background:
+        radial-gradient(ellipse 70% 40% at 50% 0%, rgba(63, 214, 143, 0.1), transparent 70%),
+        #070a09;
+}
+
+.projects-page .muted {
+    color: var(--fd-muted);
+}
+
+/* ---------- Nav ---------- */
+.projects-nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    height: 60px;
+    padding: 0 var(--fd-gutter);
+    display: flex;
+    align-items: center;
+    background: rgba(7, 10, 9, 0.78);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--fd-border);
+}
+
+.projects-logo {
+    padding-left: 38px;
+    line-height: 28px;
+    font-family: "Space Grotesk", "Inter", system-ui, sans-serif;
+    font-size: 1.125rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: #fff;
+    text-decoration: none;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 28'%3E %3Crect width='28' height='28' rx='7' fill='%233fd68f'/%3E %3Cpath d='M14 6 L21 10 V18 L14 22 L7 18 V10 Z M7 10 L14 14 L21 10 M14 14 V22' fill='none' stroke='%23062014' stroke-width='1.8' stroke-linejoin='round'/%3E %3C/svg%3E") left center / 28px 28px no-repeat;
+}
+
+/* ---------- Main ---------- */
+.projects-main {
+    padding: 40px var(--fd-gutter) 80px;
+}
+
+.projects-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.projects-head h1 {
+    margin: 0 0 4px;
+    font-family: "Space Grotesk", "Inter", system-ui, sans-serif;
+    font-size: 1.75rem;
+    letter-spacing: -0.02em;
+}
+
+.projects-head p {
+    margin: 0;
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+}
+
+.project-card {
+    overflow: hidden;
+    border: 1px solid var(--fd-border);
+    border-radius: 12px;
+    background: var(--fd-surface);
+    transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.project-card:hover {
+    border-color: rgba(63, 214, 143, 0.35);
+    transform: translateY(-2px);
+}
+
+.project-card-preview {
+    height: 120px;
+    border-bottom: 1px solid var(--fd-border);
+    background:
+        radial-gradient(circle, rgba(255, 255, 255, 0.07) 1px, transparent 1px) 0 0 / 16px 16px,
+        linear-gradient(160deg, rgba(63, 214, 143, 0.1), transparent 60%);
+}
+
+.project-card-body {
+    padding: 14px 16px 16px;
+}
+
+.project-card-title {
+    margin: 0 0 6px;
+    font-size: 15px;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.project-card-desc {
+    margin: 0 0 12px;
+    font-size: 13.5px;
+    line-height: 1.45;
+    color: #c9d1cc;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: calc(13.5px * 1.45 * 2);
+}
+
+.project-card-meta {
+    font-size: 12.5px;
+    color: var(--fd-muted);
+}
+
+.projects-empty {
+    padding: 64px 24px;
+    text-align: center;
+    border: 1px dashed rgba(255, 255, 255, 0.14);
+    border-radius: 12px;
+}
+
+.projects-empty h2 {
+    margin: 0 0 6px;
+    font-size: 1.125rem;
+}
+
+.projects-empty p {
+    margin: 0 0 20px;
+}
+
+/* ---------- Buttons ---------- */
+.projects-page .btn-primary {
+    height: 36px;
+    padding: 0 16px;
+    border: 0;
+    border-radius: 8px;
+    background: var(--fd-green);
+    color: #04140c;
+    font: 600 14px "Inter", system-ui, sans-serif;
+    white-space: nowrap;
+    cursor: pointer;
+    box-shadow: 0 0 0 1px rgba(63, 214, 143, 0.4), 0 6px 20px rgba(63, 214, 143, 0.25);
+    transition: background-color 0.15s ease;
+}
+
+.projects-page .btn-primary:hover:not(:disabled) {
+    background: var(--fd-green-hover);
+}
+
+.projects-page .btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.projects-page .btn-ghost {
+    height: 36px;
+    padding: 0 14px;
+    border: 1px solid var(--fd-border);
+    border-radius: 8px;
+    background: none;
+    color: var(--fd-text);
+    font: 500 14px "Inter", system-ui, sans-serif;
+    cursor: pointer;
+}
+
+.projects-page .btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.projects-page .btn-primary:focus-visible,
+.projects-page .btn-ghost:focus-visible {
+    outline: 2px solid var(--fd-green);
+    outline-offset: 3px;
+}
+
+.projects-page .form-error {
+    margin: 0;
+    font-size: 13.5px;
+    color: #ff8a8a;
+}
+
+/* ---------- New project dialog ---------- */
+.new-project-dialog {
+    width: min(440px, calc(100vw - 32px));
+    padding: 0;
+    border: 1px solid var(--fd-border);
+    border-radius: 14px;
+    background: var(--fd-surface);
+    color: var(--fd-text);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+}
+
+.new-project-dialog::backdrop {
+    background: rgba(0, 0, 0, 0.6);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+}
+
+.new-project-dialog form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 22px;
+}
+
+.new-project-dialog h2 {
+    margin: 0;
+    font-family: "Space Grotesk", "Inter", system-ui, sans-serif;
+    font-size: 1.25rem;
+}
+
+.new-project-dialog label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.new-project-dialog input,
+.new-project-dialog textarea {
+    padding: 9px 11px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    background: #070a09;
+    color: var(--fd-text);
+    font: 400 14px "Inter", system-ui, sans-serif;
+    resize: vertical;
+}
+
+.new-project-dialog input:focus,
+.new-project-dialog textarea:focus {
+    outline: none;
+    border-color: var(--fd-green);
+    box-shadow: 0 0 0 3px rgba(63, 214, 143, 0.2);
+}
+
+.dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+@media (max-width: 480px) {
+    .projects-head {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}

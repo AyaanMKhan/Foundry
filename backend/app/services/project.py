@@ -33,6 +33,9 @@ def create_project(user_id: UUID, project: ProjectCreate, db: Session):
 
     return new_project
 
+def get_user_projects(user_id: UUID, db: Session):
+    return db.query(Project).filter(Project.user_id == user_id).all()
+
 def get_projects(db: Session):
     return db.query(Project).all()
 
