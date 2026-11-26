@@ -73,7 +73,7 @@ body:has(.home-page) {
     border-bottom: 1px solid var(--fd-border);
 }
 
-.home-page button {
+.home-page .login-btn {
     pointer-events: auto;
     position: fixed;
     top: 12px;
@@ -91,8 +91,8 @@ body:has(.home-page) {
     border-radius: 8px;
 }
 
-.home-page button::before,
-.home-page button::after {
+.home-page .login-btn::before,
+.home-page .login-btn::after {
     display: inline-flex;
     align-items: center;
     height: 36px;
@@ -104,14 +104,14 @@ body:has(.home-page) {
     transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-.home-page button::before {
+.home-page .login-btn::before {
     content: "Log in";
     padding: 0 12px;
     font-weight: 500;
     color: #c9d1cc;
 }
 
-.home-page button::after {
+.home-page .login-btn::after {
     content: "Start designing";
     padding: 0 16px;
     font-weight: 600;
@@ -120,16 +120,16 @@ body:has(.home-page) {
     box-shadow: 0 0 0 1px rgba(63, 214, 143, 0.4), 0 6px 20px rgba(63, 214, 143, 0.25);
 }
 
-.home-page button:hover::before {
+.home-page .login-btn:hover::before {
     color: #fff;
     background: rgba(255, 255, 255, 0.06);
 }
 
-.home-page button:hover::after {
+.home-page .login-btn:hover::after {
     background: var(--fd-green-hover);
 }
 
-.home-page button:focus-visible {
+.home-page .login-btn:focus-visible {
     outline: 2px solid var(--fd-green);
     outline-offset: 3px;
 }
@@ -221,10 +221,136 @@ body:has(.home-page)::before {
 }
 
 @media (max-width: 480px) {
-    .home-page button::before {
+    .home-page .login-btn::before {
         padding: 0 8px;
     }
-    .home-page button::after {
+    .home-page .login-btn::after {
         padding: 0 12px;
     }
+}
+
+/* ---------- Signed-in user (initial avatar + menu) ---------- */
+.user-menu {
+    pointer-events: auto;
+    position: fixed;
+    top: 12px;
+    right: var(--fd-gutter);
+    z-index: 11;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-align: left;
+}
+
+.start-btn {
+    height: 36px;
+    padding: 0 16px;
+    border: 0;
+    border-radius: 8px;
+    background: var(--fd-green);
+    color: #04140c;
+    font: 600 14px "Inter", system-ui, sans-serif;
+    white-space: nowrap;
+    cursor: pointer;
+    box-shadow: 0 0 0 1px rgba(63, 214, 143, 0.4), 0 6px 20px rgba(63, 214, 143, 0.25);
+    transition: background-color 0.15s ease;
+}
+
+.start-btn:hover {
+    background: var(--fd-green-hover);
+}
+
+.start-btn:focus-visible {
+    outline: 2px solid var(--fd-green);
+    outline-offset: 3px;
+}
+
+@media (max-width: 480px) {
+    .start-btn {
+        padding: 0 12px;
+    }
+}
+
+.user-avatar {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: var(--fd-green);
+    color: #04140c;
+    font-family: "Space Grotesk", "Inter", system-ui, sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 0 0 1px rgba(63, 214, 143, 0.4), 0 6px 20px rgba(63, 214, 143, 0.25);
+    transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.user-avatar:hover,
+.user-avatar[aria-expanded="true"] {
+    background: var(--fd-green-hover);
+    box-shadow: 0 0 0 3px rgba(63, 214, 143, 0.25), 0 6px 20px rgba(63, 214, 143, 0.3);
+}
+
+.user-avatar:focus-visible {
+    outline: 2px solid var(--fd-green);
+    outline-offset: 3px;
+}
+
+.user-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 220px;
+    max-width: calc(100vw - 32px);
+    padding: 6px;
+    border-radius: 10px;
+    border: 1px solid var(--fd-border);
+    background: rgba(13, 19, 17, 0.96);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+}
+
+.user-info {
+    padding: 8px 10px 10px;
+    border-bottom: 1px solid var(--fd-border);
+    margin-bottom: 6px;
+}
+
+.user-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--fd-text);
+}
+
+.user-email {
+    margin-top: 2px;
+    font-size: 12.5px;
+    color: var(--fd-muted);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.user-logout {
+    width: 100%;
+    padding: 8px 10px;
+    border: 0;
+    border-radius: 6px;
+    background: none;
+    color: #c9d1cc;
+    font: 500 14px "Inter", system-ui, sans-serif;
+    text-align: left;
+    cursor: pointer;
+}
+
+.user-logout:hover,
+.user-logout:focus-visible {
+    outline: none;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.06);
 }
